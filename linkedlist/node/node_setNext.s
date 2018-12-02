@@ -1,23 +1,23 @@
 @@@@@@@@@@@@@@@@@@@@
-@ Returns the next @
+@ Assigns the next @
 @ of a node        @
 @================@@@
 @ Pre-condition  @
-@ R0: --         @
 @ R1: Node       @
+@ R2: Next       @
 @================@
 @ Post-condition @
-@ R0: Next       @
 @ R1: --         @
+@ R2: --         @
 @@@@@@@@@@@@@@@@@@
-.global linkedlist_getNext
-linkedlist_getNext:
+.global node_setNext
+node_setNext:
 @@@@@@@@@@@@@@@@@@
 @ Register Alias @
-next .req R0     @
 node .req R1     @
+next .req R2     @
 @@@@@@@@@@@@@@@@@@
-	ldr	next,[node,#4]	@offset the node by a word
+	str	next,[node,#4]	@offset the node by a word
 
 	bx	LR
 .end

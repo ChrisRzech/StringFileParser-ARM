@@ -13,8 +13,8 @@
 node_create:
 	push	{R0,LR}
 
-	mov	R0,#2			@R0 = number of words
-	bl	linkedlist_malloc	@R0 = 2 words (data and next)
+	mov	R0,#8				@2 words
+	bl	linkedlist_general_malloc
 
 	pop	{R0,LR}
 .end
