@@ -18,7 +18,6 @@ node .req R1     @
 next .req R2     @
 @@@@@@@@@@@@@@@@@@
 	str	next,[node,#4]	@offset the node by a word
-
 	bx	LR
 .end
 

@@ -18,7 +18,6 @@ node .req R1     @
 data .req R2     @
 @@@@@@@@@@@@@@@@@@
 	str	data,[node]
-
 	bx	LR
 .end
 
