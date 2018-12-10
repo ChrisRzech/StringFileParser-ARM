@@ -1,6 +1,6 @@
 NAME = start
 ASFLAGS = -g
-SRC = $(wildcard *.s) $(wildcard string/*.s) $(wildcard string/helpers/*.s) $(wildcard list/*.s) $(wildcard list/node/*.s) $(wildcard list/helpers/*.s)
+SRC = $(wildcard *.s) $(wildcard string/*.s) $(wildcard string/helpers/*.s) $(wildcard list/*.s) $(wildcard list/node/*.s) $(wildcard list/helpers/*.s) $(wildcard files/*.s)
 OBJ = $(SRC:.s=.o)
 
 all: $(OBJ)
