@@ -3,20 +3,21 @@
 @ allocated address   @
 @================@@@@@@
 @ Pre-condition  @
-@ R0: Address    @
+@ R1: Address    @
 @================@
 @ Post-condition @
-@ R0: --         @
+@ R1: --         @
 @@@@@@@@@@@@@@@@@@
 .extern free
 
 .global list_general_free
 list_general_free:
-	push	{R1,R12,LR}
+	push	{R0,R1,R12,LR}
 
+	mov	R0,R1
 	bl	free
 
-	pop	{R1,R12,LR}
+	pop	{R0,R1,R12,LR}
 	bx	LR
 .end
 
