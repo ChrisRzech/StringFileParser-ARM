@@ -26,11 +26,11 @@ char   .req R2   @
 
 loop:
 	ldrb	char,[string],#1
+	strb	char,[newStr],#1
 	
 	cmp	char,#0
 	beq	return			@if(char == \0) return
 	
-	strb	char,[newStr],#1
 	b	loop
 
 return:
