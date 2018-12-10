@@ -1,0 +1,15 @@
+╔═════════════════════════════════╗
+║                                 ║
+║      File to String Parser      ║
+║                                 ║
+║  <1> View all strings           ║
+║  <2> Add string from keyboard   ║
+║  <3> Load file (input.txt)      ║
+║  <4> Delete string from list    ║
+║  <5> Edit string from list      ║
+║  <6> Search list for string     ║
+║  <7> Save to file (output.txt)  ║
+║  <8> Quit                       ║
+║                                 ║
+╚═════════════════════════════════╝
+
