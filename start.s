@@ -167,7 +167,7 @@ check_optionSeven:
 	bne	check_optionEight
 
 	ldr	R1,=outFile
-	mov	R2,#0101
+	mov	R2,#01101
 	bl	file_open
 	mov	R5,R0			@R5 = file handle
 
