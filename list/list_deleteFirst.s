@@ -58,7 +58,6 @@ multi_node:
 	pop	{R1}		@load head's node INTO R1
 	bl	list_general_free
 
-	
 	b	return
 
 return:
