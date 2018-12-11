@@ -12,8 +12,8 @@
 @ R1: --         @
 @ R2: --         @
 @@@@@@@@@@@@@@@@@@
-.global substring_exists
-substring_exists:
+.global substr_exists
+substr_exists:
 	push	{LR}
 
 	bl	string_indexOf_3

@@ -3,8 +3,8 @@ menuFile: .asciz "mainmenu.txt"
 enterString: .asciz "Enter a string: "
 enterIndex:  .asciz "Enter an index: "
 pressEnter: .asciz "Press enter to continue..."
+byteCount: .asciz "List memory size (bytes): "
 menuInput: .space 256
-
 
 @ Menu options @
 optionOne:   .asciz "1"
@@ -16,8 +16,9 @@ optionSix:   .asciz "6"
 optionSeven: .asciz "7"
 optionEight: .asciz "8"
 
-
-file: .asciz "input.txt"
+inFile:  .asciz "input.txt"
+outFile: .asciz "output.txt"
+endl:	.asciz "\n"
 list: .word 0,0,0
 
 .text
@@ -28,6 +29,16 @@ _start:
 
 menu_input:
 	bl	v_clear
+
+	ldr	R1,=byteCount
+	bl	string_print
+
+	ldr	R1,=list
+	bl	list_getSize
+	mov	R2,#8
+	mul	R0,R2
+	bl	v_dec
+	bl	v_endl
 
 	ldr	R1,=menuFile
 	bl	display_file		@output menu
@@ -67,7 +78,7 @@ check_optionTwo:
 	bl	v_endl
 
 	ldr	R1,=list
-	bl	add_string_to_list	@if(input == "2a") add a string to the list
+	bl	add_string_to_list	@if(input == "2") add a string to the list
 	b	check_end
 
 check_optionThree:
@@ -77,8 +88,8 @@ check_optionThree:
 	bne	check_optionFour
 
 	ldr	R1,=list
-	ldr	R2,=file
-	bl	load_list_from_file	@if(input == "2b") load the list from the file
+	ldr	R2,=inFile
+	bl	load_list_from_file	@if(input == "3") load the list from the file
 	b	check_end
 
 check_optionFour:
@@ -107,7 +118,6 @@ check_optionFive:
 	cmp	R0,#1
 	bne	check_optionSix
 
-@	bl	do_optionFour		@if(input == "4") do 4
 	b	check_end
 
 check_optionSix:
@@ -116,7 +126,38 @@ check_optionSix:
 	cmp	R0,#1
 	bne	check_optionSeven
 
-@	bl	do_optionFive		@if(input == "5") do 5
+	ldr	R1,=enterString
+	bl	string_print
+	bl	v_endl
+
+	ldr	R1,=menuInput
+	bl	string_input
+
+	bl	v_endl
+	bl	v_endl
+
+	mov	R2,R1
+	ldr	R1,=list
+	ldr	R3,=substr_exists
+	bl	list_find_all_equal
+
+	mov	R1,R0
+	ldr	R2,=print_string_with_endl
+	bl	list_for_each
+
+	push	{R1}			@save new list
+
+	ldr	R1,=pressEnter
+	bl	string_print
+
+	ldr	R1,=menuInput
+	bl	string_input
+
+	pop	{R1}			@load new list
+
+	bl	list_free
+	
+	bl	v_endl
 	b	check_end
 
 check_optionSeven:
@@ -125,7 +166,34 @@ check_optionSeven:
 	cmp	R0,#1
 	bne	check_optionEight
 
-@	bl	do_optionSix		@if(input == "6") do 6
+	ldr	R1,=outFile
+	mov	R2,#0101
+	bl	file_open
+	mov	R5,R0			@R5 = file handle
+
+	ldr	R1,=list
+	bl	list_getHead
+	mov	R1,R0			@R1 = head's node
+
+write_loop:
+	cmp	R1,#0
+	beq	write_loop_exit		@if(node == nullptr) exit loop
+
+	bl	node_getData
+	push	{R1}			@save node
+	mov	R1,R0			@R1 = node->data
+	mov	R0,R5			@get file handle
+	bl	file_write
+
+	ldr	R1,=endl
+	bl	file_write
+	pop	{R1}			@load node
+
+	bl	node_getNext
+	mov	R1,R0			@R1 = node->next
+	b	write_loop
+write_loop_exit:
+	
 	b	check_end
 
 check_optionEight:
@@ -134,7 +202,7 @@ check_optionEight:
 	cmp	R0,#1
 	bne	check_end
 
-	b	exit			@if(input == "7") exit
+	b	exit			@if(input == "8") exit
 
 check_end:
 	b	menu_input
