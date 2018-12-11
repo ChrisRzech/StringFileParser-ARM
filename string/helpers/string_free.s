@@ -1,23 +1,23 @@
 @@@@@@@@@@@@@@@@@@@@@@@
 @ Frees a dynamically @
-@ allocated address   @
+@ allocated string    @
 @================@@@@@@
 @ Pre-condition  @
-@ R1: Address    @
+@ R1: String     @
 @================@
 @ Post-condition @
 @ R1: --         @
 @@@@@@@@@@@@@@@@@@
 .extern free
 
-.global list_general_free
-list_general_free:
-	push	{R0,R1,R12,LR}
+.global string_free
+string_free:
+	push	{R0,R12,LR}
 
 	mov	R0,R1
 	bl	free
 
-	pop	{R0,R1,R12,LR}
+	pop	{R0,R12,LR}
 	bx	LR
 .end
 

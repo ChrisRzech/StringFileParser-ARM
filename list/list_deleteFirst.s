@@ -15,7 +15,7 @@ list_deleteFirst:
 list  .req R1    @
 node  .req R2    @
 @@@@@@@@@@@@@@@@@@
-	push	{LR}
+	push	{R0-R2,LR}
 
 	cmp	list,#0
 	beq	return		@if(list == nullptr) return
@@ -28,6 +28,7 @@ node  .req R2    @
 	cmp	R0,#1
 	beq	one_node	@if(list.size() == 1) one node in list
 	bhi	multi_node	@if(list.size() != 1) multiple nodes in list
+	b	return		@else return (list.size() == 0 is only left)
 
 one_node:
 	mov	R2,#0		@R2 = nullptr
@@ -43,10 +44,24 @@ one_node:
 	b	return
 
 multi_node:
+	bl	list_getHead	@R0 = head's node
+	push	{R0}		@save head's node
+	push	{list}		@save list
+	mov	R1,R0		@R1 = head's node
+	bl	node_getNext	@R0 = head->next
+	mov	R2,R0		@R2 = head->next
+	pop	{list}		@load list
 
+	bl	list_decrSize	@size--
+
+	bl	list_setHead	@list = {x, head->next, tail}
+	pop	{R1}		@load head's node INTO R1
+	bl	list_general_free
+
+	b	return
 
 return:
-	pop	{LR}
+	pop	{R0-R2,LR}
 	bx	LR
 .end
 	
