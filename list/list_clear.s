@@ -21,7 +21,7 @@ list .req R1     @
 	beq	return		@if(list == nullptr) return
 
 loop:
-	bl	list_deleteLast
+	bl	list_deleteFirst
 
 	bl	list_getSize
 	cmp	size,#0
