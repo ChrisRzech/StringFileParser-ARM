@@ -17,6 +17,11 @@ list_create:
 	bl	list_general_malloc
 	mov	R1,R0		@R1 = list
 
+	mov	R0,#0
+	str	R0,[R1]		@size = 0
+	bl	list_setHead	@head = 0
+	bl	list_setTail	@tail = 0
+
 	pop	{R0,LR}
 	bx	LR
 .end

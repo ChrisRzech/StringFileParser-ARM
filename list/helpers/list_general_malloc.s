@@ -14,13 +14,17 @@
 
 .global list_general_malloc
 list_general_malloc:
-	push	{R1-R3,R12,LR}
+	push	{R1-R4,R12,LR}
 
 	mov	R1,#4
 	mul	R0,R1		@n words * 4 bytes = total bytes
+	mov	R0,R4
 	bl	malloc
 
-	pop	{R1-R3,R12,LR}
+	mov	R1,#0
+	str	R1,[R0]		@store 0 into the
+
+	pop	{R1-R4,R12,LR}
 	bx	LR
 .end
 

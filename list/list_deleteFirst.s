@@ -34,8 +34,13 @@ one_node:
 	mov	R2,#0		@R2 = nullptr
 	bl	list_setTail	@list = {1, head, nullptr}
 
+	push	{list}		@save list
+
 	bl	list_getHead	@R0 = head's node
+	mov	R1,R0		@R1 = head's node
 	bl	list_general_free
+
+	pop	{list}		@load list
 
 	bl	list_setHead	@list = {1, nullptr, nullptr}
 

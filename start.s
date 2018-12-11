@@ -1,6 +1,7 @@
 .data
 menuFile: .asciz "mainmenu.txt"
 enterString: .asciz "Enter a string: "
+enterIndex:  .asciz "Enter an index: "
 pressEnter: .asciz "Press enter to continue..."
 menuInput: .space 256
 
@@ -32,8 +33,9 @@ menu_input:
 	bl	display_file		@output menu
 
 	ldr	R1,=menuInput
-	mov	R2,#256
+	mov	R2,#255
 	bl	string_input		@input option
+	bl	v_endl
 
 check_optionOne:
 	ldr	R2,=optionOne
@@ -43,6 +45,8 @@ check_optionOne:
 
 	ldr	R1,=list
 	bl	print_list		@if(input == "1") print list
+
+	bl	v_endl
 
 	ldr	R1,=pressEnter
 	bl	string_print
@@ -56,7 +60,7 @@ check_optionTwo:
 	ldr	R2,=optionTwo
 	bl	string_equals
 	cmp	R0,#1
-	bne	check_optionTwo
+	bne	check_optionThree
 
 	ldr	R1,=enterString
 	bl	string_print		@prompt for input
@@ -70,7 +74,7 @@ check_optionThree:
 	ldr	R2,=optionThree
 	bl	string_equals
 	cmp	R0,#1
-	bne	check_optionThree
+	bne	check_optionFour
 
 	ldr	R1,=list
 	ldr	R2,=file
@@ -83,7 +87,18 @@ check_optionFour:
 	cmp	R0,#1
 	bne	check_optionFive
 
-@	bl	do_optionThree		@if(input == "3") do 3
+	ldr	R1,=enterIndex
+	bl	string_print
+
+	ldr	R1,=menuInput
+	mov	R2,#255
+	bl	string_input
+	bl	stoi
+	mov	R2,R0
+
+	ldr	R1,=list
+	bl	list_delete
+	
 	b	check_end
 
 check_optionFive:
@@ -125,6 +140,9 @@ check_end:
 	b	menu_input
 
 exit:
+	ldr	R1,=list
+	bl	list_clear
+
 	mov	R7,#1
 	svc	0
 .end
